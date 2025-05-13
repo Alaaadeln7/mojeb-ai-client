@@ -34,6 +34,13 @@ export const authApiSlice = createApi({
         method: "POST",
       }),
     }),
+    verifyOtp: builder.mutation({
+      query: (data) => ({
+        url: "/verify-otp",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -42,4 +49,5 @@ export const {
   useRegisterMutation,
   useCheckAuthQuery,
   useLogoutMutation,
+  useVerifyOtpMutation,
 } = authApiSlice;

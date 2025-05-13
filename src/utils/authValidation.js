@@ -23,3 +23,7 @@ export const registerValidation = Yup.object({
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
 });
+
+export const verifyOtpValidation = Yup.object({
+  otp: Yup.string().required("otp is required").max(6),
+});

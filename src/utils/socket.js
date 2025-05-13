@@ -4,7 +4,7 @@ export const socketClient = io("https://portfolioserver-0qyd.onrender.com");
 
 export const socketConnection = () => {
   socketClient.connect();
-  console.log("connected");
+  console.log("connected with socket");
   socket = socketClient;
   window.socket = socketClient;
 };
