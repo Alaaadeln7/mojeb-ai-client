@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="light">
+    <html lang="en" data-theme="light" className="bg-base-200">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

@@ -41,6 +41,27 @@ export const authApiSlice = createApi({
         body: data,
       }),
     }),
+    forgetPassword: builder.mutation({
+      query: (credentials) => ({
+        url: "/forget-password",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+    verifyOtpForgetPassword: builder.mutation({
+      query: (credentials) => ({
+        url:"/verify-otp-forget-password",
+        method:"POST",
+        body:credentials
+      })
+    }),
+    resetPassword: builder.mutation({
+      query: (credentials) => ({
+        url: "/reset-password",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
   }),
 });
 
@@ -50,4 +71,7 @@ export const {
   useCheckAuthQuery,
   useLogoutMutation,
   useVerifyOtpMutation,
+  useForgetPasswordMutation,
+  useResetPasswordMutation,
+  useVerifyOtpForgetPasswordMutation
 } = authApiSlice;

@@ -1,8 +1,11 @@
 import {
   useCheckAuthQuery,
+  useForgetPasswordMutation,
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+  useResetPasswordMutation,
+  useVerifyOtpForgetPasswordMutation,
   useVerifyOtpMutation,
 } from "@/store/api/authApiSlice";
 import { useRouter } from "next/navigation";
@@ -14,6 +17,11 @@ export default function useAuth() {
   const { data: user, isLoading: isCheckingAuth } = useCheckAuthQuery();
   const [verifyOtp, { isLoading: verifyLoading }] = useVerifyOtpMutation();
   const [logout, { isLoading: logoutLoading }] = useLogoutMutation();
+  const [forgetPassword, { isLoading: forgetPasswordLoading }] =
+    useForgetPasswordMutation();
+  const [resetPassword, { isLoading: resetPasswordLoading }] =
+    useResetPasswordMutation();
+  const [verifyOtpForgetPassword , {isLoading: verifyOtpForgetPasswordLoading}] = useVerifyOtpForgetPasswordMutation()
   const router = useRouter();
   const handleRegister = async (userData) => {
     try {
@@ -45,6 +53,26 @@ export default function useAuth() {
       toast.success("register is successfully");
     }
   };
+  const handleForgetPassword = async (credentials) => {
+    const res = await forgetPassword(credentials);
+    if (res?.data) {
+      toast.success("OTP Sended To Your Email");
+      router.push("/auth/reset-password");
+    }
+  };
+  const handleVerifyOtpForgetPassword = async (credentials) => {
+    let res = await verifyOtpForgetPassword(credentials)
+    if(res?.data){
+      toast.success("verifying successfully")
+    }
+  }
+  const handleResetPassword = async (credentials) => {
+    let res = await resetPassword(credentials);
+    if (res?.data) {
+      toast.success("reset password successfully");
+      router.push("/auth/login");
+    }
+  };
   const handleLogout = async () => {
     const res = await logout();
     toast.success("logout successfully");
@@ -55,7 +83,16 @@ export default function useAuth() {
     user: user?.data,
     logout: handleLogout,
     verifyOtp: handleVerifyOtp,
-    loading: isRegistering || isLoggingIn || logoutLoading || verifyLoading,
+    forgetPassword: handleForgetPassword,
+    resetPassword: handleResetPassword,
+    verifyOtpForgetPassword: handleVerifyOtpForgetPassword,
+    loading:
+      isRegistering ||
+      isLoggingIn ||
+      logoutLoading ||
+      verifyLoading ||
+      forgetPasswordLoading ||
+      resetPasswordLoading,
     isCheckingAuth,
   };
 }

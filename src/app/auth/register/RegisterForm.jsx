@@ -5,7 +5,7 @@ import { registerValidation } from "@/utils/authValidation";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react";
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { register, loading } = useAuth();
@@ -23,69 +23,101 @@ export default function RegisterForm() {
     },
   });
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-      <div className="form-control">
-        <label htmlFor="fullName">Full name</label>
-        <input
-          id="fullName"
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered w-full max-w-xs"
-          name="fullName"
-          onChange={formik.handleChange}
-          value={formik.values.fullName}
-        />
-      </div>
-      <div className="form-control">
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="Type here"
-          className="input input-bordered w-full max-w-xs"
-          name="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-        />
-      </div>
-      <div className="form-control w-full max-w-xs">
-        <label htmlFor="password">password</label>
-        <div className="flex justify-center items-center border border-base-300 rounded-md">
-          <input
-            id="password"
-            type={showPassword ? "password" : "text"}
-            placeholder="Type password here"
-            className="input border-0 w-full max-w-xs outline-0"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            name="password"
-          />
-          <button
-            onClick={() => {
-              setShowPassword(!showPassword);
-            }}
-            className="btn btn-ghost"
-          >
-            {showPassword ? (
-              <EyeOff className="size-4" />
-            ) : (
-              <Eye className="size-4" />
-            )}
-          </button>
+    <>
+      <form onSubmit={formik.handleSubmit} className="space-y-6">
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text font-medium">Full name</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 z-50 flex items-center pointer-events-none">
+              <User className="size-5 text-base-content/40" />
+            </div>
+            <input
+              type="text"
+              className="input input-bordered w-full pl-10 focus:outline-0 focus:border-base-content/40"
+              placeholder="your full name"
+              id="fullName"
+              name="fullName"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.fullName}
+            />
+          </div>
         </div>
-        {formik.touched.password && formik.errors.password && (
-          <p className="text-red-500 text-sm">{formik.errors.password}</p>
-        )}
-      </div>
-      <button disabled={loading} className="btn btn-primary" type="submit">
-        {loading ? <MainLoader /> : "sign up"}
-      </button>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text font-medium">Email</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 z-50 flex items-center pointer-events-none">
+              <Mail className="size-5 text-base-content/40" />
+            </div>
+            <input
+              type="email"
+              className="input input-bordered w-full pl-10 focus:outline-0 focus:border-base-content/40"
+              placeholder="example@gmail.com"
+              id="email"
+              name="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+            />
+          </div>
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text font-medium">Password</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 z-50 flex items-center pointer-events-none">
+              <Lock className="size-5 text-base-content/40" />
+            </div>
+            <input
+              type={showPassword ? "text" : "password"}
+              className="input input-bordered w-full pl-10 focus:outline-0 focus:border-base-content/40"
+              placeholder="**********"
+              id="password"
+              name="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center z-50"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeOff className="size-5 text-base-content/40" />
+              ) : (
+                <Eye className="size-5 text-base-content/40" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="btn btn-primary w-full"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="size-5 animate-spin" />
+              Loading...
+            </>
+          ) : (
+            "sign up"
+          )}
+        </button>
+      </form>
       <p className="text-center">
         Already have an account?
-        <Link href="/auth/login" className="btn btn-link m-0 p-0">
+        <Link href={"/auth/login"} className="link link-primary">
           login
         </Link>
       </p>
-    </form>
+    </>
   );
 }

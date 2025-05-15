@@ -13,7 +13,7 @@ export default function Home() {
     } else {
       socketDisconnection();
     }
-  }, []);
+  }, [user]);
   return (
     <section className="flex justify-center items-center h-screen flex-col">
       <h1 className="underline font-bold text-2xl">hello world</h1>
@@ -37,6 +37,7 @@ export default function Home() {
         <Link href={"/auth/login"} className="btn btn-primary">
           login
         </Link>
+        <Link className="btn btn-primary" href={"/client-dashboard"}>client dashboard</Link>
         <button
           className="btn btn-error"
           disabled={loading}
