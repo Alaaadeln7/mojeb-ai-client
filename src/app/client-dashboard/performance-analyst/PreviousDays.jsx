@@ -19,7 +19,7 @@ const data = [
 
 const PreviousDays = () => {
   return (
-    <div className="flex justify-between items-center sm:flex-nowrap gap-5 p-4 bg-base-100 shadow-md rounded-2xl">
+    <div className="flex justify-between items-center flex-wrap gap-5 p-4 bg-base-100 shadow-md rounded-2xl sm:flex-nowrap">
       <div className="p-4 border border-base-200 rounded-lg w-full">
         <div className="text-xl font-bold">
           +12%
