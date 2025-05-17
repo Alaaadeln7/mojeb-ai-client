@@ -1,9 +1,12 @@
 import React from "react";
+import CallsAndTicketsHeader from "./CallsAndTicketsHeader";
+import CallsAndTicketsTable from "./CallsAndTicketsTable";
 
 export default function CallsAndTickets() {
   return (
-    <section className="flex justify-center items-center h-screen">
-      <h1 className="font-bold text-2xl">Calls And Tickets</h1>
+    <section className="px-10">
+      <CallsAndTicketsHeader />
+      <CallsAndTicketsTable />
     </section>
   );
 }

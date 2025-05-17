@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @plugin "daisyui";
-
+:root {
+  --primary-color: #10a5b1;
+  --scound-color: #3d4d58;
+}
 body {
   width: 100%;
   overflow-x: hidden;

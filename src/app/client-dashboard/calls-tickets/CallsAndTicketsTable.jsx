@@ -1,36 +1,31 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 
-export default function RecentClients() {
+export default function CallsAndTicketsTable() {
   return (
-    <div className="w-full sm:w-10/12 md:w-8/12 lg:w-7/12 bg-base-100 rounded-xl p-5 mx-auto">
-      <h1 className="text-lg md:text-xl font-bold my-5 text-center">
-        Recent Clients
-      </h1>
-
+    <div className="my-10">
       <div className="overflow-x-auto border border-base-content/5 bg-base-100 rounded-lg">
-        <table className="table w-full table-zebra">
+        <table className="table table-zebra">
           <thead className="bg-base-300">
             <tr>
-              <th className="text-sm md:text-base">Name</th>
-              <th className="text-sm md:text-base">Date</th>
-              <th className="text-sm md:text-base">Duration</th>
-              <th className="text-sm md:text-base">Ticket</th>
+              <th></th>
+              <th>Name</th>
+              <th>Job</th>
+              <th>Favorite Color</th>
             </tr>
           </thead>
           <tbody>
             {Array.from({ length: 5 }).map((_, index) => (
               <tr key={index}>
-                <th className="text-sm md:text-base">Toni Kroose</th>
-                <td className="text-sm md:text-base">12/05/2025</td>
-                <td className="text-sm md:text-base">15 mins</td>
-                <td className="text-sm md:text-base">Active</td>
+                <th>1</th>
+                <td>Cy Ganderton</td>
+                <td>Quality Control Specialist</td>
+                <td>Blue</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-      <div className="join mt-5 flex justify-center sm:justify-end gap-2">
+      <div className="join mt-5 flex justify-center gap-2">
         <button className="join-item btn btn-sm sm:btn-md">
           <ChevronLeft className="size-4" />
         </button>
@@ -42,6 +37,9 @@ export default function RecentClients() {
           <ChevronRight className="size-4" />
         </button>
       </div>
+      <button className="justify-end btn btn-primary capitalize mt-5">
+        <Play className="size-5" /> test call
+      </button>
     </div>
   );
 }

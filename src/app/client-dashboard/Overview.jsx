@@ -4,14 +4,16 @@ import OverviewCard from "./OverviewCard";
 
 export default function Overview() {
   return (
-    <section className="bg-base-100 rounded-sm p-5 w-fit mx-auto">
+    <section className="bg-base-100 rounded-sm p-5 w-full max-w-6xl mx-auto">
       <header className="flex justify-between items-center px-3 my-3">
-        <h1 className="flex gap-3 items-center justify-center text-3xl">
+        <h1 className="flex gap-3 items-center justify-center text-2xl md:text-3xl">
           <LayoutDashboard />
           <span className="font-bold">Overview</span>
         </h1>
       </header>
-      <div className="flex justify-around items-center gap-3 flex-wrap">
+
+      {/* Responsive Grid Layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <OverviewCard
           title={"Calls This Month"}
           number={123}
