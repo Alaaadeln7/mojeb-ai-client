@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ChartLine,
+  ClipboardCheck,
   House,
   PhoneCall,
   ScrollText,
@@ -79,6 +80,15 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
             >
               <Settings className="size-5" />
               <span className="hidden sm:inline">Settings</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="list-row hover:bg-base-300 transition-colors text-base-100"
+              href={"/client-dashboard/ai-outbound-calls"}
+            >
+              <ClipboardCheck className="size-5" />
+              <span className="hidden sm:inline">Ai Outbound</span>
             </Link>
           </li>
         </ul>

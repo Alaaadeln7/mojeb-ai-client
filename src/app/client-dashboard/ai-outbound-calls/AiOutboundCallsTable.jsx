@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 
-export default function CallsAndTicketsTable() {
+export default function AiOutboundCallsTable() {
   return (
     <div className="my-10">
       <div className="overflow-x-auto border border-base-content/5 bg-base-100 rounded-lg">

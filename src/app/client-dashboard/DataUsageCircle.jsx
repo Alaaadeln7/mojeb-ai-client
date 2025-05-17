@@ -9,7 +9,7 @@ export default function DataUsageCircle({ used = 60, total = 100 }) {
     { name: "Remaining", value: total - used },
   ];
 
-  const COLORS = ["#ddd", "#52a9ff"];
+  const COLORS = ["#10a5b1", "#3d4d58"];
 
   return (
     <div className="flex flex-col items-center justify-center gap-2">

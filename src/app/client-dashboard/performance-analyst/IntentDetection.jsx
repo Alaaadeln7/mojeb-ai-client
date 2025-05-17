@@ -27,23 +27,7 @@ const pieData = [
   { name: "Remaining", value: 17 },
 ];
 
-const COLORS = ["#00C49F", "#FF8042"];
-
-const scenarioData = [
-  {
-    name: "Appointment Booking",
-    calls: 630,
-    duration: "3:15",
-    satisfaction: "91%",
-  },
-  { name: "Complaint", calls: 215, duration: "4:02", satisfaction: "68%" },
-  {
-    name: "General Inquiry",
-    calls: 405,
-    duration: "1:50",
-    satisfaction: "93%",
-  },
-];
+const COLORS = ["#10a5b1", "#3d4d58"];
 
 export default function IntentDetection() {
   return (

@@ -32,7 +32,11 @@ const PreviousDays = () => {
             .fill(0)
             .map((_, index) => (
               <div>
-                <div key={index} className="h-6 w-6 bg-blue-500 opacity-70" />
+                <div
+                  style={{ background: "#10a5b1" }}
+                  key={index}
+                  className={`h-6 w-6 bg-blue-500 opacity-${index + "0"}`}
+                />
               </div>
             ))}
         </div>
@@ -59,7 +63,7 @@ const PreviousDays = () => {
             <Line
               type="monotone"
               dataKey="value"
-              stroke="#8884d8"
+              stroke="#10a5b1"
               strokeWidth={2}
             />
           </LineChart>

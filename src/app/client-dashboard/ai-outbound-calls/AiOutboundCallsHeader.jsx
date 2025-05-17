@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 
-export default function CallsAndTicketsHeader() {
+export default function AiOutboundCallsHeader() {
   return (
     <header className="flex justify-between my-10 flex-wrap">
       <div>
