@@ -30,14 +30,19 @@ export default function Home() {
           <p>{user?.email}</p>
         </div>
       )}
-      <div className="flex gap-4 mt-4">
+      <div className="flex gap-4 mt-4 flex-wrap justify-center">
         <Link href={"/auth/register"} className="btn btn-primary">
           register
         </Link>
         <Link href={"/auth/login"} className="btn btn-primary">
           login
         </Link>
-        <Link className="btn btn-primary" href={"/client-dashboard"}>client dashboard</Link>
+        <Link className="btn btn-primary" href={"/client-dashboard"}>
+          client dashboard
+        </Link>
+        <Link className="btn btn-primary" href={"/admin-dashboard"}>
+          admin dashboard
+        </Link>
         <button
           className="btn btn-error"
           disabled={loading}

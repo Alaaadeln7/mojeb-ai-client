@@ -8,3 +8,18 @@ body {
   width: 100%;
   overflow-x: hidden;
 }
+
+.bg-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    var(--scound-color) 100%
+  );
+}
+.bg-gradient-dark {
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 100%,
+    var(--scound-color) 0%
+  );
+}
