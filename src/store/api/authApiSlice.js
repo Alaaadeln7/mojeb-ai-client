@@ -1,12 +1,15 @@
-import { API_LINK } from "@/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
 export const authApiSlice = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${API_LINK}/auth`,
+    baseUrl: `${
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_API_URL_PRODUCTION
+        : process.env.NEXT_PUBLIC_API_URL_DEVELOPMENT
+    }auth`,
     credentials: "include",
   }),
+  tagTypes: ["Auth"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
@@ -14,6 +17,7 @@ export const authApiSlice = createApi({
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ["Auth"],
     }),
     register: builder.mutation({
       query: (userData) => ({
@@ -21,18 +25,21 @@ export const authApiSlice = createApi({
         method: "POST",
         body: userData,
       }),
+      invalidatesTags: ["Auth"],
     }),
     checkAuth: builder.query({
       query: () => ({
         url: "/check-auth",
         method: "GET",
       }),
+      providesTags: ["Auth"],
     }),
     logout: builder.mutation({
       query: () => ({
         url: "/logout",
         method: "POST",
       }),
+      invalidatesTags: ["Auth"],
     }),
     verifyOtp: builder.mutation({
       query: (data) => ({
@@ -40,6 +47,7 @@ export const authApiSlice = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Auth"],
     }),
     forgetPassword: builder.mutation({
       query: (credentials) => ({
@@ -47,13 +55,15 @@ export const authApiSlice = createApi({
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ["Auth"],
     }),
     verifyOtpForgetPassword: builder.mutation({
       query: (credentials) => ({
-        url:"/verify-otp-forget-password",
-        method:"POST",
-        body:credentials
-      })
+        url: "/verify-otp-forget-password",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["Auth"],
     }),
     resetPassword: builder.mutation({
       query: (credentials) => ({
@@ -61,6 +71,7 @@ export const authApiSlice = createApi({
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ["Auth"],
     }),
   }),
 });
@@ -73,5 +84,5 @@ export const {
   useVerifyOtpMutation,
   useForgetPasswordMutation,
   useResetPasswordMutation,
-  useVerifyOtpForgetPasswordMutation
+  useVerifyOtpForgetPasswordMutation,
 } = authApiSlice;

@@ -22,13 +22,15 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="light" className="bg-base-200">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Provider store={store}>{children}</Provider>
-        <Toaster />
-      </body>
-    </html>
+    <Provider store={store}>
+      <html lang="en" className="bg-base-200">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {children}
+          <Toaster />
+        </body>
+      </html>
+    </Provider>
   );
 }

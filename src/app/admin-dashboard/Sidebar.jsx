@@ -1,7 +1,11 @@
+"use client";
+import useAuth from "@/hooks/useAuth";
 import {
   ChartLine,
   Database,
   LayoutDashboard,
+  LogOut,
+  NotepadText,
   PanelRightOpen,
   Settings,
   User,
@@ -10,6 +14,7 @@ import {
 import Link from "next/link";
 
 export default function Sidebar({ isOpen, setIsOpen }) {
+  const { logout, loading } = useAuth();
   return (
     <aside
       className={`bg-gradient dark:bg-gradient-dark relative top-0 left-0 ${
@@ -65,6 +70,28 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             <Settings className="size-5" />
             <span className="hidden sm:block">Settings</span>
           </Link>
+        </li>
+        <li className="mb-1 list-row w-full hover:bg-base-100/10   transition-colors cursor-pointer">
+          <Link className=" flex gap-5" href="/admin-dashboard/plans">
+            <NotepadText className="size-5" />
+            <span className="hidden sm:block">Plans</span>
+          </Link>
+        </li>
+        <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
+          <button
+            disabled={loading}
+            onClick={logout}
+            className="btn btn-ghost btn-circle"
+          >
+            {loading ? (
+              <span className="loading loading-spinner loading-sm"></span>
+            ) : (
+              <>
+                <LogOut className="size-5" />
+                <span className="hidden sm:block">Logout</span>
+              </>
+            )}
+          </button>
         </li>
       </ul>
     </aside>

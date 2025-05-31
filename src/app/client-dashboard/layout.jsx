@@ -1,13 +1,17 @@
 "use client";
 import { useState } from "react";
 import Sidebar from "./Sidebar";
+import ClientDashboardHeader from "./ClientDashboardHeader";
 
 export default function ClientDashboardLayout({ children }) {
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <main className="w-screen">
-      <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      <div className={`transition-all duration-300 w-full`}>{children}</div>
-    </main>
+    <section className="w-screen flex fixed top-0 left-0 h-screen bg-base-200 mb-20">
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+      <div className="flex-1">
+        <ClientDashboardHeader isOpen={isOpen} setIsOpen={setIsOpen} />
+        <main className="overflow-y-scroll h-screen">{children}</main>
+      </div>
+    </section>
   );
 }

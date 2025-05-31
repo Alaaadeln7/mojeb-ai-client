@@ -1,6 +1,10 @@
 import { io } from "socket.io-client";
 export let socket = null;
-export const socketClient = io("https://portfolioserver-0qyd.onrender.com");
+export const socketClient = io(
+  process.env.NODE_ENV === "production"
+    ? process.env.NEXT_PUBLIC_API_URL_SOCKET_PRODUCTION
+    : process.env.NEXT_PUBLIC_API_URL_SOCKET_DEVELOPMENT
+);
 
 export const socketConnection = () => {
   socketClient.connect();

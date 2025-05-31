@@ -1,98 +1,102 @@
 "use client";
-import Logo from "@/components/Logo";
+import useAuth from "@/hooks/useAuth";
 import {
-  ArrowLeft,
-  ArrowRight,
   ChartLine,
   ClipboardCheck,
   House,
+  LogOut,
+  PanelRightOpen,
   PhoneCall,
   ScrollText,
   Settings,
-  menu,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
-export default function Sidebar({ showSidebar, setShowSidebar }) {
+export default function Sidebar({ isOpen, setIsOpen }) {
+  const { logout, loading } = useAuth();
   return (
     <aside
-      style={{ background: "var(--scound-color)" }}
-      className={`max-w-2/12 p-10 sm:px-5 px-0 bg-cyan-800 fixed top-0 h-screen ${
-        showSidebar ? "translate-x-0" : "-translate-x-full"
-      } h-screen shadow-sm shadow-base-200 transition-transform duration-300 z-50`}
+      className={`bg-gradient dark:bg-gradient-dark relative top-0 left-0 ${
+        isOpen ? "translate-x-0 w-1/4" : "translate-x-[-100%] w-0"
+      } h-screen transition-all duration-300 ease-in-out`}
     >
-      <button
-        className="btn btn-primary btn-circle absolute top-3 -right-8"
-        onClick={() => setShowSidebar(!showSidebar)}
-      >
-        {showSidebar ? (
-          <ArrowLeft className="size-5" />
-        ) : (
-          <ArrowRight className="size-5" />
-        )}
-      </button>
-      <div>
-        <Logo />
-      </div>
-      <div>
-        <ul className="flex flex-col gap-2 list mt-5">
-          <li>
-            <Link
-              className="list-row hover:bg-base-300 transition-colors text-base-100"
-              href={"/client-dashboard"}
+      {isOpen && (
+        <div className="flex items-center justify-between p-4 px-10 ">
+          <h2 className=" text-lg font-bold mb-2 hidden sm:flex">Sidebar</h2>
+          {isOpen && (
+            <button
+              className="btn btn-ghost btn-circle"
+              onClick={() => setIsOpen(!isOpen)}
             >
-              <House className="size-5" />
-              <span className="hidden sm:inline">Dashboard</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="list-row hover:bg-base-300 transition-colors text-base-100"
-              href={"/client-dashboard/calls-tickets"}
-            >
-              <PhoneCall className="size-5" />
-              <span className="hidden sm:inline">Calls & Tickets</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="list-row hover:bg-base-300 transition-colors text-base-100"
-              href={"/client-dashboard/voice-script"}
-            >
-              <ScrollText className="size-5" />
-              <span className="hidden sm:inline">Voice Script</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="list-row hover:bg-base-300 transition-colors text-base-100"
-              href={"/client-dashboard/performance-analyst"}
-            >
-              <ChartLine className="size-5" />
-              <span className="hidden sm:inline"> Performance Analyst</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="list-row hover:bg-base-300 transition-colors text-base-100"
-              href={"/client-dashboard/settings"}
-            >
-              <Settings className="size-5" />
-              <span className="hidden sm:inline">Settings</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="list-row hover:bg-base-300 transition-colors text-base-100"
-              href={"/client-dashboard/ai-outbound-calls"}
-            >
-              <ClipboardCheck className="size-5" />
-              <span className="hidden sm:inline">Ai Outbound</span>
-            </Link>
-          </li>
-        </ul>
-      </div>
+              <PanelRightOpen className="size-6" />
+            </button>
+          )}
+        </div>
+      )}
+      <ul className="overflow-y-auto h-[calc(100vh-4rem)] list">
+        <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
+          <Link className=" flex gap-5" href={"/client-dashboard"}>
+            <House className="size-5" />
+            <span className="hidden sm:block">Dashboard</span>
+          </Link>
+        </li>
+        <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
+          <Link
+            className=" flex gap-5"
+            href={"/client-dashboard/calls-tickets"}
+          >
+            <PhoneCall className="size-5" />
+            <span className="hidden sm:block">Calls & Tickets</span>
+          </Link>
+        </li>
+        <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
+          <Link className=" flex gap-5" href={"/client-dashboard/voice-script"}>
+            <ScrollText className="size-5" />
+            <span className="hidden sm:block">Voice Script</span>
+          </Link>
+        </li>
+        <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
+          <Link
+            className=" flex gap-5"
+            href={"/client-dashboard/performance-analyst"}
+          >
+            <ChartLine className="size-5" />
+            <span className="hidden sm:block"> Performance Analyst</span>
+          </Link>
+        </li>
+
+        <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
+          <Link
+            className=" flex gap-5"
+            href={"/client-dashboard/ai-outbound-calls"}
+          >
+            <ClipboardCheck className="size-5" />
+            <span className="hidden sm:block">Ai Outbound</span>
+          </Link>
+        </li>
+        <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
+          <Link className=" flex gap-5" href={"/client-dashboard/settings"}>
+            <Settings className="size-5" />
+            <span className="hidden sm:block">Settings</span>
+          </Link>
+        </li>
+        <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
+          <button
+            disabled={loading}
+            onClick={logout}
+            className="btn btn-ghost btn-circle"
+          >
+            {loading ? (
+              <span className="loading loading-spinner loading-sm"></span>
+            ) : (
+              <>
+                <LogOut className="size-5" />
+                <span className="hidden sm:block">Logout</span>
+              </>
+            )}
+          </button>
+        </li>
+      </ul>
     </aside>
   );
 }

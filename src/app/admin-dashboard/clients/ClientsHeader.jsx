@@ -1,12 +1,18 @@
+"use client";
 import { Plus, Search } from "lucide-react";
 
-export default function ClientsHeader() {
+export default function ClientsHeader({ setIsModalOpen, isModalOpen }) {
   return (
     <header className="space-y-4">
       {/* Title + Add Button */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Clients</h1>
-        <button className="btn btn-primary flex items-center gap-2 w-full sm:w-auto">
+        <button
+          className="btn btn-primary flex items-center gap-2 w-full sm:w-auto"
+          onClick={() => {
+            setIsModalOpen(!isModalOpen);
+          }}
+        >
           <Plus className="size-5" />
           <span>Add New Client</span>
         </button>
@@ -26,7 +32,7 @@ export default function ClientsHeader() {
 
         {/* Select */}
         <select className="select select-bordered w-full md:w-1/3">
-          <option disabled selected>
+          <option disabled defaultValue={"active"}>
             Filter by status
           </option>
           <option>Active</option>

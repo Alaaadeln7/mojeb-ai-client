@@ -1,7 +1,13 @@
 import { clientData } from "@/data/ClientData";
+import formatDate from "@/utils/formatDate";
 import { Bell, CircleX, TriangleAlert } from "lucide-react";
 
-export default function ClientTable({ selectedClients, setSelectedClients }) {
+export default function ClientTable({
+  selectedClients,
+  setSelectedClients,
+  clients,
+}) {
+  console.log(clients);
   const handleSelectClient = (clientId) => {
     setSelectedClients((prev) =>
       prev.includes(clientId)
@@ -33,8 +39,8 @@ export default function ClientTable({ selectedClients, setSelectedClients }) {
                     }
                   }}
                   checked={
-                    selectedClients.length === clientData.length &&
-                    clientData.length > 0
+                    selectedClients.length === clients.length &&
+                    clients.length > 0
                   }
                 />
               </th>
@@ -48,9 +54,9 @@ export default function ClientTable({ selectedClients, setSelectedClients }) {
           </thead>
 
           <tbody>
-            {clientData?.map((client) => (
+            {clients?.map((client) => (
               <tr
-                key={client.id}
+                key={client._id}
                 className={isSelected(client.id) ? "bg-primary/10" : ""}
               >
                 <td>
@@ -75,24 +81,24 @@ export default function ClientTable({ selectedClients, setSelectedClients }) {
                 <td>
                   <div
                     className={`badge badge-soft ${
-                      client.status === "active"
+                      client?.isActive === true
                         ? "badge-success"
-                        : client.status === "inactive"
+                        : client?.isActive === false
                         ? "badge-error"
                         : "badge-warning"
                     }`}
                   >
-                    {client.status === "active" && (
+                    {client?.isActive === true && (
                       <span className="flex items-center gap-1">
                         <Bell className="size-4" /> Active
                       </span>
                     )}
-                    {client.status === "inactive" && (
+                    {client?.isActive === false && (
                       <span className="flex items-center gap-1">
                         <CircleX className="size-4" /> Inactive
                       </span>
                     )}
-                    {client.status === "trial" && (
+                    {client?.isActive === false && (
                       <span className="flex items-center gap-1">
                         <TriangleAlert className="size-4" /> Trial
                       </span>
@@ -114,9 +120,9 @@ export default function ClientTable({ selectedClients, setSelectedClients }) {
 
       {/* Mobile Cards */}
       <div className="md:hidden space-y-4">
-        {clientData?.map((client) => (
+        {clients?.map((client) => (
           <div
-            key={client.id}
+            key={client._id}
             className={`p-4 bg-base-100 rounded-lg shadow-md ${
               isSelected(client.id) ? "bg-primary/10" : ""
             }`}
@@ -133,19 +139,19 @@ export default function ClientTable({ selectedClients, setSelectedClients }) {
               </div>
               <div
                 className={`badge badge-soft ${
-                  client.status === "active"
+                  client?.isActive === true
                     ? "badge-success"
-                    : client.status === "inactive"
+                    : client?.isActive === false
                     ? "badge-error"
                     : "badge-warning"
                 }`}
               >
-                {client.status === "active" && (
+                {client?.isActive === true && (
                   <span className="flex items-center gap-1">
                     <Bell className="size-3" /> Active
                   </span>
                 )}
-                {client.status === "inactive" && (
+                {client?.isActive === false && (
                   <span className="flex items-center gap-1">
                     <CircleX className="size-3" /> Inactive
                   </span>
@@ -161,7 +167,7 @@ export default function ClientTable({ selectedClients, setSelectedClients }) {
             <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
               <div>
                 <p>Sector</p>
-                <p>{client.Sector || "Unknown"}</p>
+                <p>{client.industry || "Unknown"}</p>
               </div>
               <div>
                 <p>Users</p>
@@ -169,7 +175,7 @@ export default function ClientTable({ selectedClients, setSelectedClients }) {
               </div>
               <div>
                 <p>Start Date</p>
-                <p>{client.startDate || "N/A"}</p>
+                <p>{formatDate(client.createdAt) || "N/A"}</p>
               </div>
             </div>
 

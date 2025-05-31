@@ -2,10 +2,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function RecentClients() {
   return (
-    <div className="w-full sm:w-10/12 md:w-8/12 lg:w-7/12 bg-base-100 rounded-xl p-5 mx-auto">
-      <h1 className="text-lg md:text-xl font-bold my-5 text-center">
-        Recent Clients
-      </h1>
+    <div className="bg-base-100 rounded-xl p-5 col-span-3">
+      <h1 className="text-lg md:text-xl font-bold my-5">Recent Clients</h1>
 
       <div className="overflow-x-auto border border-base-content/5 bg-base-100 rounded-lg">
         <table className="table w-full table-zebra">

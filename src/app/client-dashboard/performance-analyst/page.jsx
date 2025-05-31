@@ -8,7 +8,7 @@ import ScenarioPerformance from "./ScenarioPerformance";
 
 export default function PerformanceAnalyst() {
   return (
-    <div className="grid grid-cols-12 gap-4 p-5 mx-auto max-w-screen-2xl">
+    <div className="grid grid-cols-12 gap-4 p-5 mx-auto max-w-screen-2xl mb-20">
       <main className="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 px-5">
         <AnalystCard title={"Total Calls"} number={1250} />
         <AnalystCard title={"Answered Calls"} number={92} />
@@ -18,21 +18,13 @@ export default function PerformanceAnalyst() {
         <div className="sm:col-span-4 md:col-span-3 lg:col-span-3">
           <DailyAiCalls />
         </div>
-        <div className="sm:col-span-2 md:col-span-2 lg:col-span-2">
-          <IntentDetection />
-        </div>
+        <IntentDetection />
         <div className="sm:col-span-4 md:col-span-3 lg:col-span-3">
           <ScenarioPerformance />
         </div>
-        <div className="sm:col-span-1 md:col-span-1 lg:col-span-1">
-          <KeywordInsights />
-        </div>
-        <div className="sm:col-span-1 md:col-span-1 lg:col-span-1">
-          <KeywordInsights />
-        </div>
-        <div className="sm:col-span-2 md:col-span-2 lg:col-span-2">
-          <ConversionsRate />
-        </div>
+        <KeywordInsights />
+        <KeywordInsights />
+        <ConversionsRate />
         <div className="sm:col-span-3 md:col-span-3 lg:col-span-3">
           <PreviousDays />
         </div>

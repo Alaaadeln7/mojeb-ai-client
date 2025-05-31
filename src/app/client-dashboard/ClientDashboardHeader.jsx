@@ -1,12 +1,24 @@
-import { User } from "lucide-react";
+import { Bell, PanelRightClose, User } from "lucide-react";
 
-export default function ClientDashboardHeader() {
+export default function ClientDashboardHeader({ isOpen, setIsOpen }) {
   return (
-    <header className="flex justify-between items-center px-10 flex-wrap my-10">
-      <h1 className="text-2xl font-bold">Client Dashboard</h1>
-      <button className="btn  btn-circle">
-        <User className="size-5" />
-      </button>
+    <header className="flex items-center justify-between bg-base-200 p-4 px-10 shadow-sm">
+      {!isOpen && (
+        <button
+          className="btn btn-ghost btn-circle"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <PanelRightClose className="size-6" />
+        </button>
+      )}
+      <div className="flex items-center gap-5">
+        <button className="btn btn-ghost btn-circle">
+          <Bell className="size-5" />
+        </button>
+        <button className="btn btn-ghost btn-circle">
+          <User className="size-5" />
+        </button>
+      </div>
     </header>
   );
 }

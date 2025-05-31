@@ -1,7 +1,11 @@
+"use client";
 import OverviewCard from "@/atoms/OverviewCard";
+// import useClient from "@/hooks/useClient";
 import { LayoutDashboard } from "lucide-react";
 
 export default function OverviewAdmin({ title = "Overview", cards }) {
+  // const { clients } = useClient();
+  // console.log(clients?.length);
   return (
     <section>
       <header className="flex justify-between items-center px-3 my-3">

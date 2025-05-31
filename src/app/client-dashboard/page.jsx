@@ -1,16 +1,14 @@
 import React from "react";
 import Overview from "../../molecules/Overview";
-import ClientDashboardHeader from "./ClientDashboardHeader";
 import RecentClients from "./RecentClients";
 import UsingWarming from "./UsingWarming";
 import { overviewData } from "@/data/clientDBData";
 
 export default function ClientDashboard() {
   return (
-    <section className="flex flex-col px-10">
-      <ClientDashboardHeader />
+    <section className="mb-20 sm:mx-10 mx-2">
       <Overview cards={overviewData} />
-      <div className="w-screen flex gap-5 justify-center flex-wrap mt-10">
+      <div className=" grid sm:grid-cols-4 grid-cols-1 md:grid-cols-4 gap-4 mt-5 items-center">
         <RecentClients />
         <UsingWarming />
       </div>

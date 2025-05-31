@@ -5,7 +5,7 @@ import QuickActions from "./QuickActions";
 import RecentActivity from "./RecentActivity";
 import Notifications from "./Notifications";
 import SystemAnnouncements from "./SystemAnnoumcements";
-export default function AdminDashboard({ isOpen, setIsOpen }) {
+export default function AdminDashboard() {
   return (
     <section className="mb-30 sm:mx-10 mx-2">
       <OverviewAdmin cards={overviewData} />

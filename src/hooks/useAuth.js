@@ -8,6 +8,7 @@ import {
   useVerifyOtpForgetPasswordMutation,
   useVerifyOtpMutation,
 } from "@/store/api/authApiSlice";
+// import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -21,7 +22,10 @@ export default function useAuth() {
     useForgetPasswordMutation();
   const [resetPassword, { isLoading: resetPasswordLoading }] =
     useResetPasswordMutation();
-  const [verifyOtpForgetPassword , {isLoading: verifyOtpForgetPasswordLoading}] = useVerifyOtpForgetPasswordMutation()
+  const [
+    verifyOtpForgetPassword,
+    { isLoading: verifyOtpForgetPasswordLoading },
+  ] = useVerifyOtpForgetPasswordMutation();
   const router = useRouter();
   const handleRegister = async (userData) => {
     try {
@@ -61,11 +65,11 @@ export default function useAuth() {
     }
   };
   const handleVerifyOtpForgetPassword = async (credentials) => {
-    let res = await verifyOtpForgetPassword(credentials)
-    if(res?.data){
-      toast.success("verifying successfully")
+    let res = await verifyOtpForgetPassword(credentials);
+    if (res?.data) {
+      toast.success("verifying successfully");
     }
-  }
+  };
   const handleResetPassword = async (credentials) => {
     let res = await resetPassword(credentials);
     if (res?.data) {
@@ -76,6 +80,8 @@ export default function useAuth() {
   const handleLogout = async () => {
     const res = await logout();
     toast.success("logout successfully");
+    router.push("/");
+    // await cookies().delete("token");
   };
   return {
     register: handleRegister,
