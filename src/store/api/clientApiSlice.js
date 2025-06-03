@@ -21,7 +21,8 @@ export const clientApiSlice = createApi({
       invalidatesTags: ["Client"],
     }),
     getClients: builder.query({
-      query: () => "/",
+      query: ({ page }) =>
+        `/?page=${page}&limit=${process.env.NEXT_PUBLIC_PAGE_LIMIT}`,
       providesTags: ["Client"],
     }),
     getClientById: builder.query({
@@ -43,6 +44,9 @@ export const clientApiSlice = createApi({
       }),
       invalidatesTags: ["Client"],
     }),
+    searchClient: builder.query({
+      query: (query) => `search/${query}`,
+    }),
   }),
 });
 
@@ -52,4 +56,5 @@ export const {
   useGetClientByIdQuery,
   useUpdateClientMutation,
   useDeleteClientMutation,
+  useSearchClientQuery,
 } = clientApiSlice;

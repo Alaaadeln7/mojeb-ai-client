@@ -1,13 +1,13 @@
-import { clientData } from "@/data/ClientData";
+import { Bell, CircleX, Ellipsis, TriangleAlert } from "lucide-react";
 import formatDate from "@/utils/formatDate";
-import { Bell, CircleX, TriangleAlert } from "lucide-react";
 
 export default function ClientTable({
-  selectedClients,
-  setSelectedClients,
-  clients,
+  selectedClients = [],
+  setSelectedClients = () => {},
+  clients = [],
+  isLoading = false,
+  error = null,
 }) {
-  console.log(clients);
   const handleSelectClient = (clientId) => {
     setSelectedClients((prev) =>
       prev.includes(clientId)
@@ -16,32 +16,60 @@ export default function ClientTable({
     );
   };
 
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      const allIds = clients.map((client) => client.id);
+      setSelectedClients(allIds);
+    } else {
+      setSelectedClients([]);
+    }
+  };
+
   const isSelected = (id) => selectedClients.includes(id);
+
+  if (isLoading) {
+    return (
+      <div className="w-full mt-10 flex justify-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full mt-10 alert alert-error">
+        <TriangleAlert className="size-6" />
+        <span>Error loading clients: {error.message}</span>
+      </div>
+    );
+  }
+
+  if (!clients || clients.length === 0) {
+    return (
+      <div className="w-full mt-10 alert alert-info">
+        <Bell className="size-6" />
+        <span>No clients found</span>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full mt-10">
       {/* Desktop Table */}
       <div className="hidden md:block bg-base-100 rounded-lg shadow-md overflow-x-auto">
-        <table className="table w-full table-zebra">
-          {/* Table Head */}
+        <table className="table w-full">
           <thead>
             <tr>
               <th>
                 <input
                   type="checkbox"
                   className="checkbox"
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      const allIds = clientData.map((client) => client.id);
-                      setSelectedClients(allIds);
-                    } else {
-                      setSelectedClients([]);
-                    }
-                  }}
+                  onChange={handleSelectAll}
                   checked={
                     selectedClients.length === clients.length &&
                     clients.length > 0
                   }
+                  disabled={clients.length === 0}
                 />
               </th>
               <th>Name</th>
@@ -54,63 +82,68 @@ export default function ClientTable({
           </thead>
 
           <tbody>
-            {clients?.map((client) => (
+            {clients.map((client) => (
               <tr
                 key={client._id}
-                className={isSelected(client.id) ? "bg-primary/10" : ""}
+                className={isSelected(client._id) ? "bg-primary/10" : ""}
               >
                 <td>
                   <input
                     type="checkbox"
                     className="checkbox"
-                    checked={isSelected(client.id)}
-                    onChange={() => handleSelectClient(client.id)}
+                    checked={isSelected(client._id)}
+                    onChange={() => handleSelectClient(client._id)}
                   />
                 </td>
 
                 <td>
                   <div className="flex flex-col">
-                    <span className="font-medium">{client.name}</span>
+                    <span className="font-medium">
+                      {client.name || "Unnamed Client"}
+                    </span>
+                    <span className="text-sm">{client.email || ""}</span>
                   </div>
                 </td>
 
                 <td>
-                  <span>{client.Sector || "Unknown"}</span>
+                  <span>{client.sector || client.industry || "Unknown"}</span>
                 </td>
 
                 <td>
-                  <div
+                  <span
                     className={`badge badge-soft ${
-                      client?.isActive === true
+                      client?.isActive
                         ? "badge-success"
-                        : client?.isActive === false
-                        ? "badge-error"
-                        : "badge-warning"
+                        : client?.status === "trial"
+                        ? "badge-warning"
+                        : "badge-error"
                     }`}
                   >
-                    {client?.isActive === true && (
+                    {client?.isActive ? (
                       <span className="flex items-center gap-1">
                         <Bell className="size-4" /> Active
                       </span>
-                    )}
-                    {client?.isActive === false && (
+                    ) : client?.status === "trial" ? (
+                      <span className="flex items-center gap-1">
+                        <TriangleAlert className="size-4" /> Trial
+                      </span>
+                    ) : (
                       <span className="flex items-center gap-1">
                         <CircleX className="size-4" /> Inactive
                       </span>
                     )}
-                    {client?.isActive === false && (
-                      <span className="flex items-center gap-1">
-                        <TriangleAlert className="size-4" /> Trial
-                      </span>
-                    )}
-                  </div>
+                  </span>
                 </td>
 
                 <td>{client.users || 0}</td>
-                <td>{client.startDate || "N/A"}</td>
+                <td>
+                  {formatDate(client.startDate || client.createdAt) || "N/A"}
+                </td>
 
                 <td>
-                  <button className="btn btn-sm btn-outline">Details</button>
+                  <button className="btn btn-sm btn-ghost">
+                    <Ellipsis className="size-5" />
+                  </button>
                 </td>
               </tr>
             ))}
@@ -120,7 +153,7 @@ export default function ClientTable({
 
       {/* Mobile Cards */}
       <div className="md:hidden space-y-4">
-        {clients?.map((client) => (
+        {clients.map((client) => (
           <div
             key={client._id}
             className={`p-4 bg-base-100 rounded-lg shadow-md ${
@@ -135,52 +168,60 @@ export default function ClientTable({
                   checked={isSelected(client.id)}
                   onChange={() => handleSelectClient(client.id)}
                 />
-                <h3 className="font-medium">{client.name}</h3>
+                <h3 className="font-medium">
+                  {client.name || "Unnamed Client"}
+                </h3>
               </div>
-              <div
+              <span
                 className={`badge badge-soft ${
-                  client?.isActive === true
+                  client?.isActive
                     ? "badge-success"
-                    : client?.isActive === false
-                    ? "badge-error"
-                    : "badge-warning"
+                    : client?.status === "trial"
+                    ? "badge-warning"
+                    : "badge-error"
                 }`}
               >
-                {client?.isActive === true && (
+                {client?.isActive ? (
                   <span className="flex items-center gap-1">
                     <Bell className="size-3" /> Active
                   </span>
-                )}
-                {client?.isActive === false && (
+                ) : client?.status === "trial" ? (
+                  <span className="flex items-center gap-1">
+                    <TriangleAlert className="size-3" /> Trial
+                  </span>
+                ) : (
                   <span className="flex items-center gap-1">
                     <CircleX className="size-3" /> Inactive
                   </span>
                 )}
-                {client.status === "trial" && (
-                  <span className="flex items-center gap-1">
-                    <TriangleAlert className="size-3" /> Trial
-                  </span>
-                )}
-              </div>
+              </span>
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
               <div>
-                <p>Sector</p>
-                <p>{client.industry || "Unknown"}</p>
+                <p className="font-semibold text-md">Sector</p>
+                <p>{client.sector || client.industry || "Unknown"}</p>
               </div>
               <div>
-                <p>Users</p>
+                <p className="font-semibold text-md">Users</p>
                 <p>{client.users || 0}</p>
               </div>
               <div>
-                <p>Start Date</p>
-                <p>{formatDate(client.createdAt) || "N/A"}</p>
+                <p className="font-semibold text-md">Start Date</p>
+                <p>
+                  {formatDate(client.startDate || client.createdAt) || "N/A"}
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-md">Email</p>
+                <p className="">{client.email || "N/A"}</p>
               </div>
             </div>
 
             <div className="mt-3 flex justify-end">
-              <button className="btn btn-sm btn-outline">Details</button>
+              <button className="btn btn-sm btn-ghost">
+                <Ellipsis className="size-5" />
+              </button>
             </div>
           </div>
         ))}

@@ -1,20 +1,23 @@
+"use client";
 import {
   useCreateClientMutation,
   useDeleteClientMutation,
   useGetClientsQuery,
+  useSearchClientQuery,
   useUpdateClientMutation,
 } from "@/store/api/clientApiSlice";
 import toast from "react-hot-toast";
 import useAuth from "./useAuth";
+import { useState } from "react";
 
 export default function useClient() {
-  // const { user } = useAuth();
-  // console.log(user);
+  const [currentPage, setCurrentPage] = useState(1);
   const [createClient, { isLoading: createClientLoading }] =
     useCreateClientMutation();
-  // const { data: client, isLoading: getClientLoading } =
-  //   useGetClientByIdQuery(clientId);
-  const { data: clients, isLoading: getClientsLoading } = useGetClientsQuery();
+  const { data: clients, isLoading: getClientsLoading } = useGetClientsQuery({
+    page: currentPage,
+  });
+
   const [updateClient, { isLoading: updateClientLoading }] =
     useUpdateClientMutation();
   const [deleteClient, { isLoading: deleteClientLoading }] =
@@ -23,9 +26,7 @@ export default function useClient() {
   const handleCreateClient = async (clientData) => {
     try {
       const response = await createClient(clientData).unwrap();
-      if (response?.data) {
-        toast.success("Client created successfully!");
-      }
+      toast.success("Client created successfully!");
     } catch (error) {
       console.log("Failed to create client:", error?.data?.data?.message);
       toast.error(error?.data?.data?.message);
@@ -51,7 +52,16 @@ export default function useClient() {
       throw error;
     }
   };
+  // const handleSearchClient = async (query) => {
+  //   let res = await searchClient(query);
+  //   if (res?.data) {
+  //     return res?.data;
+  //   }
+  // };
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
   return {
     handleCreateClient,
     clients: clients?.data,
@@ -61,5 +71,8 @@ export default function useClient() {
     getClientsLoading,
     updateClientLoading,
     deleteClientLoading,
+    currentPage,
+    handlePageChange,
+    totalPages: clients?.data?.totalPages,
   };
 }

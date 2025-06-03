@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ClientsTablePaginationSkeleton() {
+export default function TablePaginationSkeleton() {
   return (
     <div className="join mt-5">
       {/* Previous Button Skeleton */}

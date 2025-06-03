@@ -1,12 +1,15 @@
 import { Plus, Search } from "lucide-react";
 
-export default function UsersAndRolesHeader() {
+export default function UsersAndRolesHeader({ setIsModalOpen }) {
   return (
     <header className="space-y-4">
       {/* Title + Add Button */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Users & Roles</h1>
-        <button className="btn btn-primary flex items-center gap-2 w-full sm:w-auto">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="btn btn-primary flex items-center gap-2 w-full sm:w-auto"
+        >
           <Plus className="size-5" />
           <span>Add New User</span>
         </button>

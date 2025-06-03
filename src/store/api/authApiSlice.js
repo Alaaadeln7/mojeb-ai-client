@@ -19,9 +19,9 @@ export const authApiSlice = createApi({
       }),
       invalidatesTags: ["Auth"],
     }),
-    register: builder.mutation({
+    createUser: builder.mutation({
       query: (userData) => ({
-        url: "/register",
+        url: "/create-user",
         method: "POST",
         body: userData,
       }),
@@ -73,16 +73,22 @@ export const authApiSlice = createApi({
       }),
       invalidatesTags: ["Auth"],
     }),
+    getAllUsers: builder.query({
+      query: ({ page }) =>
+        `/users/?page=${page}&limit=${process.env.NEXT_PUBLIC_PAGE_LIMIT}`,
+      providesTags: ["Auth"],
+    }),
   }),
 });
 
 export const {
   useLoginMutation,
-  useRegisterMutation,
+  useCreateUserMutation,
   useCheckAuthQuery,
   useLogoutMutation,
   useVerifyOtpMutation,
   useForgetPasswordMutation,
   useResetPasswordMutation,
   useVerifyOtpForgetPasswordMutation,
+  useGetAllUsersQuery,
 } = authApiSlice;

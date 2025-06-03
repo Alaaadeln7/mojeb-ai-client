@@ -5,15 +5,20 @@ import ClientTable from "./ClientTable";
 import ActionsClients from "./ActionsClients";
 import PaginationTable from "./PaginationTable";
 import CreateNewClientModal from "./CreateNewClientModal";
-import useClient from "@/hooks/useClient";
 import ClientsTableSkeleton from "@/components/skeletons/ClientsTableSkeleton";
-import ClientsTablePaginationSkeleton from "@/components/skeletons/ClientsTablePaginationSkeleton";
+import useClient from "@/hooks/useClient";
+import TablePaginationSkeleton from "@/components/skeletons/TablePaginationSkeleton";
 
 export default function Clients() {
   const [selectedClients, setSelectedClients] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { clients, getClientsLoading } = useClient();
-  console.log(clients?.length);
+  const {
+    clients,
+    getClientsLoading,
+    totalPages,
+    currentPage,
+    handlePageChange,
+  } = useClient();
   return (
     <>
       <section className="sm:mx-10 mx-2 my-5">
@@ -21,20 +26,24 @@ export default function Clients() {
           setIsModalOpen={setIsModalOpen}
           isModalOpen={isModalOpen}
         />
-        {selectedClients.length > 0 && <ActionsClients />}
+        {selectedClients && selectedClients?.length > 0 && <ActionsClients />}
         {getClientsLoading ? (
           <ClientsTableSkeleton />
         ) : (
           <ClientTable
             selectedClients={selectedClients}
             setSelectedClients={setSelectedClients}
-            clients={clients}
+            clients={clients?.clients}
           />
         )}
         {getClientsLoading ? (
-          <ClientsTablePaginationSkeleton />
+          <TablePaginationSkeleton />
         ) : (
-          <PaginationTable clients={clients} />
+          <PaginationTable
+            totalPages={totalPages}
+            page={currentPage}
+            handlePageChange={handlePageChange}
+          />
         )}
       </section>
       {isModalOpen && <CreateNewClientModal setIsModalOpen={setIsModalOpen} />}

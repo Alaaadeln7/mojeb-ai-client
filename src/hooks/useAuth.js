@@ -1,6 +1,9 @@
+"use client";
 import {
   useCheckAuthQuery,
+  useCreateUserMutation,
   useForgetPasswordMutation,
+  useGetAllUsersQuery,
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
@@ -10,10 +13,13 @@ import {
 } from "@/store/api/authApiSlice";
 // import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function useAuth() {
-  const [register, { isLoading: isRegistering }] = useRegisterMutation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [createUser, { isLoading: isCreateUserLoading }] =
+    useCreateUserMutation();
   const [login, { isLoading: isLoggingIn }] = useLoginMutation();
   const { data: user, isLoading: isCheckingAuth } = useCheckAuthQuery();
   const [verifyOtp, { isLoading: verifyLoading }] = useVerifyOtpMutation();
@@ -26,16 +32,21 @@ export default function useAuth() {
     verifyOtpForgetPassword,
     { isLoading: verifyOtpForgetPasswordLoading },
   ] = useVerifyOtpForgetPasswordMutation();
+
+  const { data: users, isLoading: getUsersLoading } = useGetAllUsersQuery({
+    page: currentPage,
+  });
+
   const router = useRouter();
-  const handleRegister = async (userData) => {
+  const handleCreateUser = async (userData) => {
     try {
-      const response = await register(userData).unwrap();
-      router.push("/auth/verify-otp");
+      const response = await createUser(userData).unwrap();
+      toast.success("create user successful");
     } catch (error) {
       toast.error(
-        error?.data?.message || "Registration failed. Please try again."
+        error?.data?.message || "create user failed. Please try again."
       );
-      console.error("Registration error:", error);
+      console.log("Registration error:", error);
       throw error;
     }
   };
@@ -83,8 +94,12 @@ export default function useAuth() {
     router.push("/");
     // await cookies().delete("token");
   };
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return {
-    register: handleRegister,
+    handleCreateUser,
     login: handleLogin,
     user: user?.data,
     logout: handleLogout,
@@ -93,12 +108,17 @@ export default function useAuth() {
     resetPassword: handleResetPassword,
     verifyOtpForgetPassword: handleVerifyOtpForgetPassword,
     loading:
-      isRegistering ||
+      isCreateUserLoading ||
       isLoggingIn ||
       logoutLoading ||
       verifyLoading ||
       forgetPasswordLoading ||
       resetPasswordLoading,
     isCheckingAuth,
+    users: users?.data?.users,
+    currentPage,
+    handlePageChange,
+    totalPages: users?.data?.totalPages,
+    getUsersLoading,
   };
 }
