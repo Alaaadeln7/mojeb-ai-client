@@ -2,6 +2,7 @@
 import {
   useCreateClientMutation,
   useDeleteClientMutation,
+  useGetClientByIdQuery,
   useGetClientsQuery,
   useSearchClientQuery,
   useUpdateClientMutation,
@@ -17,7 +18,10 @@ export default function useClient() {
   const { data: clients, isLoading: getClientsLoading } = useGetClientsQuery({
     page: currentPage,
   });
+  const { user } = useAuth();
 
+  const { data: currentClient, isLoading: getClientLoading } =
+    useGetClientByIdQuery(user?._id);
   const [updateClient, { isLoading: updateClientLoading }] =
     useUpdateClientMutation();
   const [deleteClient, { isLoading: deleteClientLoading }] =
@@ -73,6 +77,8 @@ export default function useClient() {
     deleteClientLoading,
     currentPage,
     handlePageChange,
+    currentClient: currentClient?.data,
+    getClientLoading,
     totalPages: clients?.data?.totalPages,
   };
 }

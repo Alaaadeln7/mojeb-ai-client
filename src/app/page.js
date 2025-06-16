@@ -46,37 +46,5 @@ export default function Home() {
     );
   }
 
-  return (
-    <section className="flex justify-center items-center h-screen flex-col">
-      <h1 className="underline font-bold text-2xl">hello world</h1>
-      {user && (
-        <div className="flex justify-center items-center flex-col my-10">
-          <Image
-            src={user?.avatar || "/default-avatar.png"}
-            alt={user?.fullName || "User"}
-            className="w-10 h-10 rounded-full"
-            width={100}
-            height={100}
-            onError={(e) => {
-              e.currentTarget.src = "/default-avatar.png";
-            }}
-          />
-          <h1 className="font-bold text-xl">{user?.fullName}</h1>
-          <p>{user?.email}</p>
-        </div>
-      )}
-      <div className="flex gap-4 mt-4 flex-wrap justify-center">
-        {!user && (
-          <>
-            <Link href="/auth/register" className="btn btn-primary" prefetch>
-              register
-            </Link>
-            <Link href="/auth/login" className="btn btn-primary" prefetch>
-              login
-            </Link>
-          </>
-        )}
-      </div>
-    </section>
-  );
+  return <></>;
 }

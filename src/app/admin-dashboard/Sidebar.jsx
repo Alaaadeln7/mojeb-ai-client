@@ -78,11 +78,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           </Link>
         </li>
         <li className="mb-1 list-row w-full hover:bg-base-100/10 transition-colors cursor-pointer">
-          <button
-            disabled={loading}
-            onClick={logout}
-            className="btn btn-ghost btn-circle"
-          >
+          <button className="btn">
             {loading ? (
               <span className="loading loading-spinner loading-sm"></span>
             ) : (

@@ -5,9 +5,13 @@ import CallGreeting from "./CallGreeting";
 import KeywordBaseReplies from "./KeywordBaseReplies";
 import MainConversationScript from "./MainConversationScript";
 import VoiceScriptHeader from "./VoiceScriptHeader";
+import useAuth from "@/hooks/useAuth";
+import useClient from "@/hooks/useClient";
 
 export default function VoiceScript() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { currentClient } = useClient();
+  console.log(currentClient);
   return (
     <>
       <section className="p-5 sm:p-10 mb-20">
