@@ -1,5 +1,5 @@
 "use client";
-import useChatbot from "@/hooks/useChatbot";
+import { voices } from "@/constants/index.js";
 import { useSpeakMutation } from "@/store/api/chatbotApiSlice";
 import { Loader, Play } from "lucide-react";
 import { useState } from "react";
@@ -9,11 +9,6 @@ export default function CallGreeting() {
   const [lang, setLang] = useState("ar-XA");
   const [voice, setVoice] = useState("ar-XA-Standard-A");
   const [speak, { isLoading }] = useSpeakMutation();
-
-  const voices = {
-    "en-US": ["en-US-Wavenet-D", "en-US-Wavenet-F"],
-    "ar-XA": ["ar-XA-Standard-A", "ar-XA-Standard-B"],
-  };
 
   const handlePlay = async () => {
     if (!text) return;
