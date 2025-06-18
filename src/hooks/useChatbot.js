@@ -1,22 +1,27 @@
 import {
   useDeleteChatbotMutation,
   useUpdateChatbotMutation,
-  useTrainChatbotMutation,
   useAddInquiryMutation,
   useGetChatbotQuery,
 } from "@/store/api/chatbotApiSlice";
 import toast from "react-hot-toast";
+import useClient from "./useClient";
 
 export default function useChatbot() {
-  const { data: chatbot, isLoading: getChatbotLoading } = useGetChatbotQuery();
+  const { currentClient } = useClient();
+
+  const { data: chatbot, isLoading: getChatbotLoading } = useGetChatbotQuery({
+    chatbotId: currentClient?.chatbotId,
+  });
+  console.log("chatbot from useChatbot", chatbot);
   const [updateChatbot, { isLoading: updateChatbotLoading }] =
     useUpdateChatbotMutation();
   const [deleteChatbot, { isLoading: deleteChatbotLoading }] =
     useDeleteChatbotMutation();
-  const [trainChatbot, { isLoading: trainChatbotLoading }] =
-    useTrainChatbotMutation();
+
   const [addInquiry, { isLoading: addInquiryLoading }] =
     useAddInquiryMutation();
+
   const handleUpdateChatbot = async (id, chatbotData) => {
     try {
       const response = await updateChatbot({ id, ...chatbotData }).unwrap();
@@ -41,17 +46,6 @@ export default function useChatbot() {
     }
   };
 
-  const handleTrainChatbot = async (id) => {
-    try {
-      const response = await trainChatbot(id).unwrap();
-      toast.success("Chatbot training started!");
-      return response;
-    } catch (error) {
-      console.error("Failed to train chatbot:", error);
-      toast.error(error.data?.message || "Failed to train chatbot");
-      throw error;
-    }
-  };
   const handleAddInquiry = async ({ inquiry, chatbotId }) => {
     const res = await addInquiry({ inquiry, chatbotId }).unwrap();
     console.log({ inquiry, chatbotId });
@@ -59,15 +53,14 @@ export default function useChatbot() {
       toast.success("inquiry added successfully");
     }
   };
+
   return {
     chatbot: chatbot?.data,
     handleUpdateChatbot,
     handleDeleteChatbot,
-    handleTrainChatbot,
     getChatbotLoading,
     updateChatbotLoading,
     deleteChatbotLoading,
-    trainChatbotLoading,
     handleAddInquiry,
     addInquiryLoading,
   };

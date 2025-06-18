@@ -7,11 +7,12 @@ import MainConversationScript from "./MainConversationScript";
 import VoiceScriptHeader from "./VoiceScriptHeader";
 import useAuth from "@/hooks/useAuth";
 import useClient from "@/hooks/useClient";
+import useChatbot from "@/hooks/useChatbot";
 
 export default function VoiceScript() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { currentClient } = useClient();
-  console.log(currentClient);
+  const { chatbot } = useChatbot();
+  console.log(chatbot);
   return (
     <>
       <section className="p-5 sm:p-10 mb-20">

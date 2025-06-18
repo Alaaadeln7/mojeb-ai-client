@@ -22,6 +22,7 @@ export default function useClient() {
 
   const { data: currentClient, isLoading: getClientLoading } =
     useGetClientByIdQuery(user?._id);
+
   const [updateClient, { isLoading: updateClientLoading }] =
     useUpdateClientMutation();
   const [deleteClient, { isLoading: deleteClientLoading }] =

@@ -1,9 +1,7 @@
 "use client";
 import useAuth from "@/hooks/useAuth";
 import useClient from "@/hooks/useClient";
-import { socketConnection, socketDisconnection } from "@/utils/socket";
-import Image from "next/image";
-import Link from "next/link";
+// import { socketConnection, socketDisconnection } from "@/utils/socket";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -14,13 +12,13 @@ export default function Home() {
 
   useEffect(() => {
     if (user) {
-      socketConnection();
+      // socketConnection();
       const redirectPath = getRedirectPath(user.role);
       if (redirectPath !== window.location.pathname) {
         router.push(redirectPath);
       }
     } else {
-      socketDisconnection();
+      // socketDisconnection();
       if (window.location.pathname !== "/auth/login") {
         router.push("/auth/login");
       }

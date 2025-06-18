@@ -5,6 +5,8 @@ import ProfileModalSkeleton from "@/components/skeletons/ProfileModalSkeleton";
 
 export default function ProfileModal({ setIsOpenProfile }) {
   const { currentClient, getClientLoading } = useClient();
+  console.log(currentClient);
+  if (!currentClient) return null;
   if (getClientLoading) return <ProfileModalSkeleton />;
   return (
     <AnimatePresence>
@@ -38,7 +40,7 @@ export default function ProfileModal({ setIsOpenProfile }) {
               <p className="">
                 Client ID:{" "}
                 <span className="font-mono text-blue-600">
-                  {currentClient._id}
+                  {currentClient?._id}
                 </span>
               </p>
             </div>

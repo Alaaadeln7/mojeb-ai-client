@@ -13,7 +13,7 @@ export const chatbotApiSlice = createApi({
   tagTypes: ["Chatbot"],
   endpoints: (builder) => ({
     getChatbot: builder.query({
-      query: () => "/",
+      query: ({ chatbotId }) => `/${chatbotId}`,
       providesTags: ["Chatbot"],
     }),
     updateChatbot: builder.mutation({
@@ -25,23 +25,29 @@ export const chatbotApiSlice = createApi({
       invalidatesTags: (result, error, { id }) => [{ type: "Chatbot", id }],
     }),
     deleteChatbot: builder.mutation({
-      query: (id) => ({
-        url: `/${id}`,
+      query: (data) => ({
+        url: "/delete",
         method: "DELETE",
+        body: data,
       }),
       invalidatesTags: ["Chatbot"],
     }),
-    trainChatbot: builder.mutation({
-      query: (id) => ({
-        url: `/${id}/train`,
+    addInquiry: builder.mutation({
+      query: (inquiryData) => ({
+        url: `/create`,
         method: "POST",
+        body: inquiryData,
       }),
     }),
-    addInquiry: builder.mutation({
-      query: ({ inquiry, chatbotId }) => ({
-        url: `/${chatbotId}/create`,
+    speak: builder.mutation({
+      query: (body) => ({
+        url: "/speak",
         method: "POST",
-        body: inquiry,
+        body,
+        responseHandler: async (response) => {
+          const blob = await response.blob();
+          return blob;
+        },
       }),
     }),
   }),
@@ -53,4 +59,5 @@ export const {
   useDeleteChatbotMutation,
   useTrainChatbotMutation,
   useAddInquiryMutation,
+  useSpeakMutation,
 } = chatbotApiSlice;
