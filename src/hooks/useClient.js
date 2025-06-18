@@ -19,10 +19,9 @@ export default function useClient() {
     page: currentPage,
   });
   const { user } = useAuth();
-
   const { data: currentClient, isLoading: getClientLoading } =
     useGetClientByIdQuery(user?._id);
-
+  console.log(currentClient);
   const [updateClient, { isLoading: updateClientLoading }] =
     useUpdateClientMutation();
   const [deleteClient, { isLoading: deleteClientLoading }] =
