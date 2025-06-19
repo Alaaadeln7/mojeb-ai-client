@@ -30,7 +30,7 @@ export const clientApiSlice = createApi({
       providesTags: ["Client"],
     }),
     updateClient: builder.mutation({
-      query: ({ id, ...clientData }) => ({
+      query: ({ id, clientData }) => ({
         url: `/${id}`,
         method: "PUT",
         body: clientData,
@@ -47,6 +47,34 @@ export const clientApiSlice = createApi({
     searchClient: builder.query({
       query: (query) => `search/${query}`,
     }),
+    emailNotification: builder.mutation({
+      query: ({ id }) => ({
+        url: `/${id}/email-notification`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Client"],
+    }),
+    planUsageAlert: builder.mutation({
+      query: ({ id }) => ({
+        url: `/${id}/plan-usage-alert`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Client"],
+    }),
+    performanceReports: builder.mutation({
+      query: ({ id }) => ({
+        url: `/${id}/performance-reports`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Client"],
+    }),
+    ticketEscalationAlert: builder.mutation({
+      query: ({ id }) => ({
+        url: `/${id}/ticket-escalation-alert`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Client"],
+    }),
   }),
 });
 
@@ -57,4 +85,8 @@ export const {
   useUpdateClientMutation,
   useDeleteClientMutation,
   useSearchClientQuery,
+  useEmailNotificationMutation,
+  usePlanUsageAlertMutation,
+  usePerformanceReportsMutation,
+  useTicketEscalationAlertMutation,
 } = clientApiSlice;

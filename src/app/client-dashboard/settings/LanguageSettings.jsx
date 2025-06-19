@@ -1,51 +1,62 @@
-import React from "react";
-
 export default function LanguageSettings() {
   return (
-    <div className="bg-base-100 p-5 rounded-2xl shadow-sm my-5">
-      <h1 className="font-semibold text-2xl my-3">
-        Language & voice Preference
+    <div className="bg-base-100 p-4 md:p-6 rounded-2xl shadow-sm my-4 md:my-6">
+      <h1 className="font-semibold text-xl md:text-2xl mb-4 md:mb-6">
+        Language & Voice Preference
       </h1>
-      <div className="border border-base-300 p-5 rounded-2xl">
-        <div>
-          <form
-            // onSubmit={(e) => {
-            //   e.preventDefault();
-            // }}
-            className="flex flex-col gap-4"
-          >
-            <div className="form-control flex justify-between items-center gap-3">
-              <label className="label capitalize">Application language</label>
-              <select className="select select-bordered w-full max-w-xs">
+
+      <div className="border border-base-300 p-4 md:p-6 rounded-2xl">
+        <form className="space-y-4 md:space-y-6">
+          {/* Application Language */}
+          <div className="form-control">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <label className="label text-sm md:text-base capitalize">
+                Application Language
+              </label>
+              <select className="select select-bordered w-full md:w-64">
                 <option disabled selected>
-                  Who shot first?
+                  Select your language
                 </option>
-                <option>Han Solo</option>
-                <option>Greedo</option>
+                <option>English</option>
+                <option>العربية</option>
               </select>
             </div>
-            <div className="form-control flex justify-between items-center gap-3">
-              <label className="label capitalize">Voice Absence</label>
-              <select className="select select-bordered w-full max-w-xs">
+          </div>
+
+          {/* Voice Assistant */}
+          <div className="form-control">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <label className="label text-sm md:text-base capitalize">
+                Voice Assistant
+              </label>
+              <select className="select select-bordered w-full md:w-64">
                 <option disabled selected>
-                  Who shot first?
+                  Select voice assistant
                 </option>
-                <option>Han Solo</option>
-                <option>Greedo</option>
+                <option>Male Voice</option>
+                <option>Female Voice</option>
+                <option>Neutral Voice</option>
               </select>
             </div>
-            <div className="form-control flex justify-between items-center gap-3">
-              <label className="label capitalize">default ai voice</label>
-              <select className="select select-bordered w-full max-w-xs">
+          </div>
+
+          {/* Default AI Voice */}
+          <div className="form-control">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <label className="label text-sm md:text-base capitalize">
+                Default AI Voice
+              </label>
+              <select className="select select-bordered w-full md:w-64">
                 <option disabled selected>
-                  Who shot first?
+                  Select AI voice
                 </option>
-                <option>Han Solo</option>
-                <option>Greedo</option>
+                <option>Natural</option>
+                <option>Professional</option>
+                <option>Friendly</option>
               </select>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import Overview from "../../molecules/Overview";
 import RecentClients from "./RecentClients";
 import UsingWarming from "./UsingWarming";

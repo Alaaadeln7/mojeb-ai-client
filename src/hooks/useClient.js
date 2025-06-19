@@ -2,9 +2,13 @@
 import {
   useCreateClientMutation,
   useDeleteClientMutation,
+  useEmailNotificationMutation,
   useGetClientByIdQuery,
   useGetClientsQuery,
-  useSearchClientQuery,
+  usePerformanceReportsMutation,
+  usePlanUsageAlertMutation,
+  // useSearchClientQuery,
+  useTicketEscalationAlertMutation,
   useUpdateClientMutation,
 } from "@/store/api/clientApiSlice";
 import toast from "react-hot-toast";
@@ -21,18 +25,64 @@ export default function useClient() {
   const { user } = useAuth();
   const { data: currentClient, isLoading: getClientLoading } =
     useGetClientByIdQuery(user?._id);
-  console.log(currentClient);
+  const clientId = currentClient?.data?._id;
   const [updateClient, { isLoading: updateClientLoading }] =
     useUpdateClientMutation();
   const [deleteClient, { isLoading: deleteClientLoading }] =
     useDeleteClientMutation();
 
+  const [emailNotification, { isLoading: emailNotificationLoading }] =
+    useEmailNotificationMutation();
+  const [planUsageAlert, { isLoading: planUsageAlertLoading }] =
+    usePlanUsageAlertMutation();
+  const [performanceReports, { isLoading: performanceReportsLoading }] =
+    usePerformanceReportsMutation();
+  const [ticketEscalationAlert, { isLoading: ticketEscalationAlertLoading }] =
+    useTicketEscalationAlertMutation();
+
+  const handleEmailNotification = async () => {
+    try {
+      const response = await emailNotification({ id: clientId }).unwrap();
+      toast.success(response?.message);
+    } catch (error) {
+      console.error("Failed to send email notification:", error);
+      throw error;
+    }
+  };
+  const handlePlanUsageAlert = async () => {
+    try {
+      const response = await planUsageAlert({
+        id: clientId,
+      }).unwrap();
+      toast.success(response?.message);
+    } catch (error) {
+      console.error("Failed to send email notification:", error);
+      throw error;
+    }
+  };
+  const handlePerformanceReports = async () => {
+    try {
+      const response = await performanceReports({ id: clientId }).unwrap();
+      toast.success(response?.message);
+    } catch (error) {
+      console.error("Failed to send email notification:", error);
+      throw error;
+    }
+  };
+  const handleTicketEscalationAlert = async () => {
+    try {
+      const response = await ticketEscalationAlert({ id: clientId }).unwrap();
+      toast.success(response?.message);
+    } catch (error) {
+      console.error("Failed to send email notification:", error);
+      throw error;
+    }
+  };
   const handleCreateClient = async (clientData) => {
     try {
       const response = await createClient(clientData).unwrap();
       toast.success("Client created successfully!");
     } catch (error) {
-      console.log("Failed to create client:", error?.data?.data?.message);
       toast.error(error?.data?.data?.message);
       throw error?.data?.data?.message;
     }
@@ -40,7 +90,7 @@ export default function useClient() {
 
   const handleUpdateClient = async (id, clientData) => {
     try {
-      const response = await updateClient({ id, ...clientData }).unwrap();
+      const response = await updateClient({ id, clientData }).unwrap();
       return response;
     } catch (error) {
       console.error("Failed to update client:", error);
@@ -56,12 +106,6 @@ export default function useClient() {
       throw error;
     }
   };
-  // const handleSearchClient = async (query) => {
-  //   let res = await searchClient(query);
-  //   if (res?.data) {
-  //     return res?.data;
-  //   }
-  // };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -80,5 +124,13 @@ export default function useClient() {
     currentClient: currentClient?.data,
     getClientLoading,
     totalPages: clients?.data?.totalPages,
+    handleEmailNotification,
+    emailNotificationLoading,
+    handlePlanUsageAlert,
+    planUsageAlertLoading,
+    handlePerformanceReports,
+    performanceReportsLoading,
+    handleTicketEscalationAlert,
+    ticketEscalationAlertLoading,
   };
 }

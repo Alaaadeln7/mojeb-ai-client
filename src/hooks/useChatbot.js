@@ -47,7 +47,7 @@ export default function useChatbot() {
   };
 
   const handleAddInquiry = async ({ inquiry, chatbotId }) => {
-    const res = await addInquiry({ inquiry, chatbotId }).unwrap();
+    const res = await addInquiry({ q, a, keywords, chatbotId }).unwrap();
     console.log({ inquiry, chatbotId });
     if (res?.data) {
       toast.success("inquiry added successfully");
