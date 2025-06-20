@@ -1,4 +1,11 @@
-import { Bot, X, Plus, MessageSquareText, CircleAlert } from "lucide-react";
+import {
+  Bot,
+  X,
+  Plus,
+  MessageSquareText,
+  CircleAlert,
+  Loader,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFormik } from "formik";
 import { AddConversationValidation } from "@/utils/addConversations";
