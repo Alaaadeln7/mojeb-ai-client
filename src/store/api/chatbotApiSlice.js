@@ -22,7 +22,7 @@ export const chatbotApiSlice = createApi({
         method: "PUT",
         body: chatbotData,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Chatbot", id }],
+      invalidatesTags: ["Chatbot"],
     }),
     deleteChatbot: builder.mutation({
       query: (data) => ({
@@ -38,6 +38,23 @@ export const chatbotApiSlice = createApi({
         method: "POST",
         body: inquiryData,
       }),
+      invalidatesTags: ["Chatbot"],
+    }),
+    updateInquiry: builder.mutation({
+      query: (inquiryData) => ({
+        url: `/update`,
+        method: "PUT",
+        body: inquiryData,
+      }),
+      invalidatesTags: ["Chatbot"],
+    }),
+    deleteInquiry: builder.mutation({
+      query: (data) => ({
+        url: `/delete`,
+        method: "DELETE",
+        body: data,
+      }),
+      invalidatesTags: ["Chatbot"],
     }),
     speak: builder.mutation({
       query: (body) => ({
@@ -60,4 +77,6 @@ export const {
   useTrainChatbotMutation,
   useAddInquiryMutation,
   useSpeakMutation,
+  useUpdateInquiryMutation,
+  useDeleteInquiryMutation,
 } = chatbotApiSlice;

@@ -30,8 +30,9 @@ export default function CallGreeting() {
 
   return (
     <section className="border border-base-300 p-6 rounded-2xl bg-base-100 shadow-lg  mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-6 text-primary">Call Greeting</h1>
-
+      <h3 className="text-2xl mb-3 font-semibold bg-gradient-to-r from-[#10a5b1] to-[#3d4d58] bg-clip-text text-transparent">
+        Call Greeting
+      </h3>
       <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4 items-center border border-base-300 p-4 rounded-2xl bg-base-200">
         <div className="w-full md:flex-1">
           <input

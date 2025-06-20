@@ -1,104 +1,75 @@
-import { Bot, Check, MessageSquareText, Plus, Trash2 } from "lucide-react";
+import { MessageSquareText, Plus, Trash2, Loader } from "lucide-react";
+import ConversationScript from "./ConversationScript";
 
-export default function MainConversationScript({ setIsModalOpen }) {
+export default function MainConversationScript({
+  setIsModalOpen,
+  setSelectedChatbot,
+  selectedChatbot,
+  chatbot,
+  getChatbotLoading,
+  handleDeleteInquiry,
+  deleteInquiryLoading,
+  chatbotId,
+}) {
+  const handleAddClick = () => setIsModalOpen(true);
+  const handleDeleteClick = () => {
+    handleDeleteInquiry({ chatbotId, inquiryId: selectedChatbot });
+  };
+
   return (
-    <div className="bg-base-100 p-6 rounded-2xl mt-5 shadow-lg border border-base-200">
-      <h3 className="font-bold text-2xl mb-4 text-primary flex items-center gap-2">
-        <MessageSquareText className="size-6" />
-        Main Conversation Script
-      </h3>
-
-      <div className="bg-base-200/50 p-4 rounded-xl border border-base-300 space-y-4">
-        {/* Customer Message */}
-        <div className="chat chat-end">
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full bg-gradient-to-br from-primary to-primary-focus flex justify-center items-center text-center text-base-100 font-bold">
-              C
-            </div>
+    <div className="bg-white/5 backdrop-blur-lg p-6 rounded-2xl border border-white/10 shadow-2xl shadow-black/20 mt-6">
+      {/* Header with glass effect */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-gradient-to-br from-[#10a5b1] to-[#3d4d58] rounded-lg">
+            <MessageSquareText className="text-white size-5" />
           </div>
-          <div className="chat-header text-sm font-semibold flex items-center gap-2">
-            Customer
-            <time className="text-xs opacity-50">12:46</time>
-          </div>
-          <div className="chat-bubble bg-primary text-primary-content before:bg-primary">
-            Hello, I'm looking to understand the performance metrics of my
-            customer service over the last week. Can you help me with that?
-          </div>
-          <div className="chat-footer text-xs opacity-50">Seen at 12:46</div>
-        </div>
-
-        {/* AI Message */}
-        <div className="chat chat-start">
-          <div className="chat-image avatar">
-            <div
-              className="w-10 rounded-full bg-gradient-to-br from-secondary to-secondary-focus"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Bot className="size-5 text-secondary-content" />
-            </div>
-          </div>
-          <div className="chat-header text-sm font-semibold flex items-center gap-2">
-            Mojeeb AI
-            <time className="text-xs opacity-50">12:45</time>
-          </div>
-          <div className="chat-bubble bg-secondary text-secondary-content before:bg-secondary">
-            Absolutely! I can generate a dashboard that highlights the key
-            metrics, such as response rates, escalation to human agents, and
-            overall improvements compared to the previous week. Would you like
-            it in a visual format?
-          </div>
-          <div className="chat-footer text-xs opacity-50">Delivered</div>
-        </div>
-
-        {/* Customer Reply */}
-        <div className="chat chat-end">
-          <div className="chat-image avatar">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              className="w-10 rounded-full bg-gradient-to-br from-primary to-primary-focus flex justify-center items-center text-center text-base-100 font-bold"
-            >
-              C
-            </div>
-          </div>
-          <div className="chat-header text-sm font-semibold flex items-center gap-2">
-            Customer
-            <time className="text-xs opacity-50">12:46</time>
-          </div>
-          <div className="chat-bubble bg-primary text-primary-content before:bg-primary">
-            Yes, a visual format would be great. Can I see both the improvement
-            percentage and the times where we get the most activity?
-          </div>
-          <div className="chat-footer text-xs opacity-50">Seen at 12:46</div>
+          <h3 className="text-2xl font-semibold bg-gradient-to-r from-[#10a5b1] to-[#3d4d58] bg-clip-text text-transparent">
+            Main Conversation Script
+          </h3>
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-between items-center mt-6 flex-wrap gap-5">
+      {/* Content area */}
+      <div className="bg-white/5 rounded-xl p-4 border border-white/5 mb-6">
+        <ConversationScript
+          setSelectedChatbot={setSelectedChatbot}
+          selectedChatbot={selectedChatbot}
+          chatbot={chatbot}
+          getChatbotLoading={getChatbotLoading}
+        />
+      </div>
+
+      {/* Action Buttons with modern styling */}
+      <div className="flex justify-between items-center flex-wrap gap-4">
         <button
-          onClick={() => setIsModalOpen(true)}
-          className="btn btn-primary btn-md rounded-xl gap-2 shadow-md hover:shadow-lg transition-all"
+          onClick={handleAddClick}
+          className="relative overflow-hidden group px-5 py-2.5 rounded-xl font-medium text-white shadow-lg bg-gradient-to-br from-[#10a5b1] to-[#3d4d58] hover:from-[#3d4d58] hover:to-[#10a5b1] cursor-pointer transition-all duration-300"
         >
-          <Plus className="size-5" />
-          Add new Line
+          <span className="relative z-10 flex items-center gap-2">
+            <Plus className="size-5" />
+            Add New Line
+          </span>
+          <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
         </button>
-        <div className="flex gap-3">
-          <button className="btn btn-success btn-sm rounded-xl shadow hover:shadow-md transition-all">
-            <Check className="size-4" />
-            Confirm
+
+        {selectedChatbot?.length > 0 && (
+          <button
+            onClick={handleDeleteClick}
+            disabled={deleteInquiryLoading}
+            className="relative overflow-hidden group px-5 py-2.5 rounded-xl font-medium text-white shadow-lg bg-gradient-to-br from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 transition-all duration-300 disabled:opacity-70"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              {deleteInquiryLoading ? (
+                <Loader className="size-5 animate-spin" />
+              ) : (
+                <Trash2 className="size-5" />
+              )}
+              Delete
+            </span>
+            <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
           </button>
-          <button className="btn btn-error btn-sm rounded-xl shadow hover:shadow-md transition-all">
-            <Trash2 className="size-4" />
-            Delete
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

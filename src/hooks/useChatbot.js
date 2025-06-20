@@ -3,59 +3,102 @@ import {
   useUpdateChatbotMutation,
   useAddInquiryMutation,
   useGetChatbotQuery,
+  useUpdateInquiryMutation,
+  useDeleteInquiryMutation,
 } from "@/store/api/chatbotApiSlice";
 import toast from "react-hot-toast";
 import useClient from "./useClient";
 
+const handleError = (error, action) => {
+  console.error(`Failed to ${action}:`, error);
+  const message = error?.data?.message || `Failed to ${action}`;
+  toast.error(message);
+  throw error;
+};
+
+const notifySuccess = (action) => {
+  toast.success(`${action} successfully!`);
+};
+
 export default function useChatbot() {
   const { currentClient } = useClient();
 
+  // RTK Query hooks
   const { data: chatbot, isLoading: getChatbotLoading } = useGetChatbotQuery({
     chatbotId: currentClient?.chatbotId,
   });
-  console.log("chatbot from useChatbot", chatbot);
+
   const [updateChatbot, { isLoading: updateChatbotLoading }] =
     useUpdateChatbotMutation();
   const [deleteChatbot, { isLoading: deleteChatbotLoading }] =
     useDeleteChatbotMutation();
-
   const [addInquiry, { isLoading: addInquiryLoading }] =
     useAddInquiryMutation();
+  const [updateInquiry, { isLoading: updateInquiryLoading }] =
+    useUpdateInquiryMutation();
+  const [deleteInquiry, { isLoading: deleteInquiryLoading }] =
+    useDeleteInquiryMutation();
 
+  // Chatbot operations
   const handleUpdateChatbot = async (id, chatbotData) => {
     try {
       const response = await updateChatbot({ id, ...chatbotData }).unwrap();
-      toast.success("Chatbot updated successfully!");
+      notifySuccess("Chatbot updated");
       return response;
     } catch (error) {
-      console.error("Failed to update chatbot:", error);
-      toast.error(error.data?.message || "Failed to update chatbot");
-      throw error;
+      handleError(error, "update chatbot");
     }
   };
 
   const handleDeleteChatbot = async (id) => {
     try {
       const response = await deleteChatbot(id).unwrap();
-      toast.success("Chatbot deleted successfully!");
+      notifySuccess("Chatbot deleted");
       return response;
     } catch (error) {
-      console.error("Failed to delete chatbot:", error);
-      toast.error(error.data?.message || "Failed to delete chatbot");
-      throw error;
+      handleError(error, "delete chatbot");
     }
   };
 
-  const handleAddInquiry = async ({ inquiry, chatbotId }) => {
-    const res = await addInquiry({ q, a, keywords, chatbotId }).unwrap();
-    console.log({ inquiry, chatbotId });
-    if (res?.data) {
-      toast.success("inquiry added successfully");
+  // Inquiry operations
+  const handleAddInquiry = async ({ question, answer, keyword }) => {
+    try {
+      const res = await addInquiry({
+        question,
+        answer,
+        keyword,
+        chatbotId: currentClient?.chatbotId,
+      }).unwrap();
+
+      if (res?.data) notifySuccess("Inquiry added");
+      return res;
+    } catch (error) {
+      handleError(error, "add inquiry");
+    }
+  };
+
+  const handleUpdateInquiry = async (inquiryData) => {
+    try {
+      const response = await updateInquiry(inquiryData).unwrap();
+      notifySuccess("Inquiry updated");
+      return response;
+    } catch (error) {
+      handleError(error, "update inquiry");
+    }
+  };
+
+  const handleDeleteInquiry = async (data) => {
+    try {
+      const res = await deleteInquiry(data).unwrap();
+      if (res?.data) notifySuccess("Inquiry deleted");
+      return res;
+    } catch (error) {
+      handleError(error, "delete inquiry");
     }
   };
 
   return {
-    chatbot: chatbot?.data,
+    chatbot: chatbot?.data?.inquiries,
     handleUpdateChatbot,
     handleDeleteChatbot,
     getChatbotLoading,
@@ -63,5 +106,9 @@ export default function useChatbot() {
     deleteChatbotLoading,
     handleAddInquiry,
     addInquiryLoading,
+    handleUpdateInquiry,
+    updateInquiryLoading,
+    deleteInquiryLoading,
+    handleDeleteInquiry,
   };
 }
